@@ -196,6 +196,7 @@
             this.toolStripButton7.Size = new System.Drawing.Size(52, 52);
             this.toolStripButton7.Text = "toolStripButton7";
             this.toolStripButton7.ToolTipText = "帮助";
+            this.toolStripButton7.Click += new System.EventHandler(this.toolStripButton7_Click);
             // 
             // imageList1
             // 

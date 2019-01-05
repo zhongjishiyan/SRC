@@ -13,11 +13,14 @@ using System.Runtime.InteropServices;
 using PipesClientTest;
 using System.IO;
 using Doli.DoSANet;
+using AppleLabApplication;
 
 namespace PipesClientTest
 {
     public partial class Form1 : Form
     {
+        CComLibrary.FileStruct fma;
+        
         private TransferData _TransferData = new TransferData();
         private Random _rd = new Random(1);
         private PipeClient _pipeClient;
@@ -1305,6 +1308,66 @@ namespace PipesClientTest
 
                         }
 
+                        if (GlobeVal.myconfigfile.SimulationMode[i] == 1)
+                        {
+                            _TransferData.FuncID[i] = Convert.ToInt16(dataGridView1.Rows[1].Cells[i + 1].Value);
+
+                            _TransferData.EDC_STATE[i] = Convert.ToInt16(dataGridView1.Rows[2].Cells[i + 1].Value);
+
+                            _TransferData.ControlValue[i] = Convert.ToInt16(dataGridView1.Rows[3].Cells[i + 1].Value);
+
+                            _TransferData.CHANNEL_F[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].load;
+
+                            _TransferData.CHANNEL_S[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].pos;
+
+                            _TransferData.CHANNEL_4[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].exta ;
+
+                            _TransferData.CHANNEL_5[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].extb ;
+
+                            _TransferData.CHANNEL_E[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].ext;
+
+                            _TransferData.Unbalancedness[i] = Convert.ToSingle(dataGridView1.Rows[9].Cells[i + 1].Value);
+
+                            _TransferData.TemperatureControl[i] = Convert.ToSingle(dataGridView1.Rows[10].Cells[i + 1].Value);
+
+                            _TransferData.CHANNEL_7[i] = Convert.ToSingle(dataGridView1.Rows[11].Cells[i + 1].Value);
+
+                            _TransferData.CHANNEL_8[i] = Convert.ToSingle(dataGridView1.Rows[12].Cells[i + 1].Value);
+
+                            _TransferData.CHANNEL_9[i] = Convert.ToSingle(dataGridView1.Rows[13].Cells[i + 1].Value);
+
+                            _TransferData.TemperatureGradient[i] = Convert.ToSingle(dataGridView1.Rows[14].Cells[i + 1].Value);
+
+                            _TransferData.TOTAL_TIME[i] = Convert.ToSingle(dataGridView1.Rows[15].Cells[i + 1].Value);
+
+                            _TransferData.CYCLE_COUNT[i] = Convert.ToInt64(dataGridView1.Rows[16].Cells[i + 1].Value);
+
+                            _TransferData.LOOP_COUNT[i] = Convert.ToInt64(dataGridView1.Rows[17].Cells[i + 1].Value);
+
+                            _TransferData.TOTAL_TIME[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].time;
+                            _TransferData.TEST_TIME[i] = Demo.mdemocreepdata[Demo.mdemoline[i]].time;
+
+
+                            // if (Environment.TickCount / 1000.0 - Demo.mdemotime[i] >= Demo.mdemocreepdata[Demo.mdemoline[i]].time)
+
+                          //  if (Environment.TickCount / 1000.0 - Demo.mdemotime[i] >= 0.03)
+                            {
+                                Demo.mdemoline[i] = Demo.mdemoline[i] + 1;
+
+                           //     Demo.mdemotime[i] = Environment.TickCount / 1000.0;
+
+                            }
+                            if (Demo.mdemoline[i] > Demo.mdemocreepdata.Count - 1)
+                            {
+                                Demo.mdemo[i] = false;
+                            }
+
+                           
+                            
+                           
+                            
+                        }
+
                         if (GlobeVal.myconfigfile.SimulationMode[i] == 0)
                         {
                             _TransferData.FuncID[i] = Convert.ToInt16(dataGridView1.Rows[1].Cells[i + 1].Value);
@@ -1537,10 +1600,12 @@ namespace PipesClientTest
                 mt[0] = sname[i];
                 mt[1] = (i + 1).ToString();
                 mt[2] = (i + 3).ToString();
+                mt[3] = (i + 2).ToString();
                 if ((i==4) || (i==5)||(i==6)||(i==7)||(i==8))
                 {
                     mt[1] = "0";
                     mt[2] = "0";
+                    mt[3] = "0";
                 }
 
               
@@ -1892,6 +1957,19 @@ namespace PipesClientTest
             //        p1[i, j] = (data[j]);
             //    }
             //}
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            if( ClsStaticStation.m_Global.mycls==null)
+            {
+                ClsStaticStation.m_Global.mycls = new ClsStaticStation.ItemSignalStation();
+            }
+             fma  = new CComLibrary.FileStruct();
+            fma = fma.DeSerializeNowFor(@"D:\cSharp学习\instron非标2017蠕变\instrontest\bin\Debug\AppleLabJ\device\1\para\方法.dat");
+
+            MessageBox.Show(fma.malarmvalue1.ToString());
+
         }
     }
 }
